@@ -10,28 +10,25 @@ var table = d3.select("table");
 // Set table class
 table.attr("class", "table-striped");
 
-// Loop through UFO data
+// Table data
 tableData.forEach((item) => {
-
     var row = tbody.append("tr");
-
-    row.append("td").text(item.datetime);
-    row.append("td").text(item.city);
-    row.append("td").text(item.state);
-    row.append("td").text(item.country);
-    row.append("td").text(item.shape);
-    row.append("td").text(item.durationMinutes);
-    row.append("td").text(item.comments);
+    Object.entries(item).forEach(([key, value]) => {
+        console.log(key, value);
+        var cell = row.append("td");
+        // Append the value into each 'td' cell
+        cell.text(value);
+    });
 });
 
 // Select Button
-var button = d3.select("filter-btn");
+var button = d3.select("#filter-btn");
 
 // Create event handlers 
-button.on("click", runEnter);
+button.on("click",runEnter);
 
-// Complete the event handler function for the form
-function runEnter() {
+// Complete the event handler function 
+function runEnter(){
 
   // Prevent the page from refreshing
   d3.event.preventDefault();
@@ -41,24 +38,22 @@ function runEnter() {
 
   // Get the value property of the input element
   var inputValue = inputElement.property("value");
-
+  
   console.log(inputValue);
  
-  var filteredData = tableData.filter(item => item.datetime === inputValue);
+  var filteredData = tableData.filter((item) => item.datetime === inputValue);
 
     // clear the existing output
-    // tbody.html("");
+    tbody.html("");
 
+    // Show filtered data
     filteredData.forEach((item) => {
-
-        var tr = tbody.append("tr");
-    
-        tr.append("td").text(item.datetime);
-        tr.append("td").text(item.city);
-        tr.append("td").text(item.state);
-        tr.append("td").text(item.country);
-        tr.append("td").text(item.shape);
-        tr.append("td").text(item.durationMinutes);
-        tr.append("td").text(item.comments);
-    }); 
-}
+        var row = tbody.append("tr");
+        Object.entries(item).forEach(([key, value]) => {
+            console.log(key, value);
+            var cell = row.append("td");
+            // Append the value into each 'td' cell
+            cell.text(value);
+        });
+    });
+};
